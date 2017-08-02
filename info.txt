@@ -1,0 +1,14 @@
+Then follow the protocol below:
+
+1- Download the Lab_map_600x400.png
+2- Write a .yaml file to describe the map (http://wiki.ros.org/map_server)
+3- Run the map_server (http://wiki.ros.org/map_server)
+5- open the map in Rviz and show the map
+4- Write a node to subscribe to clicked_points
+5- click on the center of street (map) continuously and save the list of
+the points
+6-  convert the points to GPS coordinate.
+7- save them in a file.
+
+
+https://github.com/austin-robot/utexas-art-ros-pkg/blob/master/stacks/art_vehicle/art_map/src/lib/RNDF.cc
