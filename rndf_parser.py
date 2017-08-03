@@ -4,8 +4,8 @@ G = nx.Graph()
 connections = []
 stops = [] # later remove from list and update here again
 connect_previous = False #make it true when a waypoint is encountered
-#pullData = open('rndf_1_way_loop.txt',"r").read()
-pullData = open('rndf_2_way_road.txt',"r").read()
+pullData = open('rndf_1_way_loop.txt',"r").read()
+#pullData = open('rndf_2_way_road.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -63,3 +63,7 @@ if len(connections) >0:
 #print G.nodes()
 print G.number_of_nodes()
 print G.number_of_edges()
+#for i in range(0,node_counter):
+#    print i, G.node[i] , G.neighbors(i)
+#for j in G.neighbors(40):
+#    print G.node[j]['name']
