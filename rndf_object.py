@@ -6,32 +6,32 @@ import networkx as nx
 
 
 class c_waypoint(object):
-    def __init__(self,name,coordi,parent):
+    def __init__(self,name,coordi,parent, idn):
         self.name = name
         self.coordi = coordi
         self.parent = parent
-    def set_parent(self,lane):
-        self.parent = lane
+        self.idn = idn
+        #If unique id for every waypoint is needed ?
+        #self.uid = id(self)
+#class 
 
 class c_lane(object):
-    def __init__(self,name,parent):
+    def __init__(self,name,parent,idn):
         self.name = name
         self.waypoints = []
         self.parent = parent
+        self.idn = idn
     def add_waypoint(self,waypoint):
         self.waypoints.append(waypoint)
-    def set_parent(self,segment):
-        self.parent = segment
 
 class c_segment(object):
-    def __init__(self,name,parent):
+    def __init__(self,name,parent,idn):
         self.name = name
         self.lanes = []
         self.parent = parent
+        self.idn = idn
     def add_lane(self,lane):
         self.lanes.append(lane)
-    def set_parent(self,rndf):
-        self.parent = rndf
 
 class c_rndf(object):
     def __init__(self,name):
@@ -66,12 +66,12 @@ for eachLine in dataArray:
 
         elif it[0] == 'segment':
             #create a segment and set parent as the rndf object
-            s = c_segment(it[1],rndf)
+            s = c_segment(it[1],rndf, idn = int(it[1]))
             rndf.add_segment(s)
             connect_previous = False
         elif it[0] == 'lane':
             #New lane is always added to the latest of the segment
-            l = c_lane(it[1], rndf.segments[-1])
+            l = c_lane(it[1], rndf.segments[-1],idn = int(it[1].split('.')[-1])) #
             rndf.segments[-1].add_lane(l)
             connect_previous = False
         elif it[0] == 'exit':
@@ -82,7 +82,7 @@ for eachLine in dataArray:
             try:
                 #New waypoint is always added to the latest lane of the latest segment
                 #rndf.segments[-1].lanes[-1].add_waypoint(name=it[0],coordi=[float(it[1]),float(it[2])],parent = rndf.segments[-1].lanes[-1])
-                p = c_waypoint(name = it[0],coordi = [float(it[1]),float(it[2])],parent = rndf.segments[-1].lanes[-1])
+                p = c_waypoint(name = it[0],coordi = [float(it[1]),float(it[2])],parent = rndf.segments[-1].lanes[-1], idn = int(it[0].split('.')[-1]))
                 rndf.segments[-1].lanes[-1].add_waypoint(p)
                 #G.add_node(node_counter, name=it[0],coordi=[float(it[1]),float(it[2])])
                 G.add_node(p, name=it[0])
@@ -130,12 +130,13 @@ if len(connections) >0:
 #print G.number_of_edges()
 #for i in range(0,node_counter):
 #    print i, G.node[i] , G.neighbors(i)
+#"""
 i =0
 for n in G.nodes():
     i = i+1
-    print n.name, n.coordi, i
+    print n.name, n.idn, n.parent.idn, n.parent.parent.idn, i
     for k in  G.neighbors(n):
         print k.name
-
+#"""
 #for j in G.neighbors(40):
 #    print G.node[j]['name']
