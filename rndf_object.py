@@ -47,20 +47,13 @@ class c_rndf(object):
     def add_segment(self,segment):
         self.segments.append(segment)
 
-class exit_info(object):
-    def __init__(self, line_txt, segment, lane):
-        self.line_txt = line_txt
-        self.segment = segment
-        self.lane = lane
-
-
 
 G = nx.Graph()
 connections = []
 stops = [] # later remove from list and update here again
 connect_previous = False #make it true when a waypoint is encountered
-#pullData = open('rndf_1_way_loop.txt',"r").read()
-pullData = open('rndf_2_way_road.txt',"r").read()
+pullData = open('rndf_1_way_loop.txt',"r").read()
+#pullData = open('rndf_2_way_road.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -91,8 +84,7 @@ for eachLine in dataArray:
             connect_previous = False
         elif it[0] == 'exit':
             connect_previous = False
-            e = exit_info(line_txt= eachLine,segment = rndf.segments[-1], lane = rndf.segments[-1].lanes[-1])
-            connections.append(e) # use these exit connections later to add edges for intersections
+            connections.append(eachLine)
 
         #else consider it as waypoint
         else :
@@ -103,7 +95,6 @@ for eachLine in dataArray:
                 rndf.segments[-1].lanes[-1].add_waypoint(p)
                 #G.add_node(node_counter, name=it[0],coordi=[float(it[1]),float(it[2])])
                 G.add_node(p, name=it[0])
-                #TODO add the way points directly here to graph...
             except Exception as ex:
                 #print 'exception'
                 print index
@@ -124,10 +115,10 @@ for eachLine in dataArray:
 #"""
 if len(connections) >0:
     for exit in connections:
-        if len(exit.line_txt)>1:
+        if len(exit)>1:
             initial = 0
             final = 0
-            it = exit.line_txt.split(' ')
+            it = exit.split(' ')
             if it[0] == 'exit':
                 for x in G.nodes():
                     if it[1] == x.name:
