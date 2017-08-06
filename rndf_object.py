@@ -13,16 +13,23 @@ class c_waypoint(object):
         self.idn = idn
         #If unique id for every waypoint is needed ?
         #self.uid = id(self)
-#class 
+class c_exit(object):
+    def __init__(self, entry, exit, parent):
+        self.entry = entry
+        self.exit = exit
+        self.parent = parent
 
 class c_lane(object):
     def __init__(self,name,parent,idn):
         self.name = name
-        self.waypoints = []
         self.parent = parent
         self.idn = idn
+        self.waypoints = []
+        self.exits = []
     def add_waypoint(self,waypoint):
         self.waypoints.append(waypoint)
+    def add_exit(self,exit):
+        self.exits.append(exit)
 
 class c_segment(object):
     def __init__(self,name,parent,idn):
@@ -40,12 +47,20 @@ class c_rndf(object):
     def add_segment(self,segment):
         self.segments.append(segment)
 
+class exit_info(object):
+    def __init__(self, line_txt, segment, lane):
+        self.line_txt = line_txt
+        self.segment = segment
+        self.lane = lane
+
+
+
 G = nx.Graph()
 connections = []
 stops = [] # later remove from list and update here again
 connect_previous = False #make it true when a waypoint is encountered
-pullData = open('rndf_1_way_loop.txt',"r").read()
-#pullData = open('rndf_2_way_road.txt',"r").read()
+#pullData = open('rndf_1_way_loop.txt',"r").read()
+pullData = open('rndf_2_way_road.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -76,7 +91,9 @@ for eachLine in dataArray:
             connect_previous = False
         elif it[0] == 'exit':
             connect_previous = False
-            connections.append(eachLine) # use these exit connections later to add edges for intersections
+            e = exit_info(line_txt= eachLine,segment = rndf.segments[-1], lane = rndf.segments[-1].lanes[-1])
+            connections.append(e) # use these exit connections later to add edges for intersections
+
         #else consider it as waypoint
         else :
             try:
@@ -87,11 +104,11 @@ for eachLine in dataArray:
                 #G.add_node(node_counter, name=it[0],coordi=[float(it[1]),float(it[2])])
                 G.add_node(p, name=it[0])
                 #TODO add the way points directly here to graph...
-            except Exception as e:
+            except Exception as ex:
                 #print 'exception'
                 print index
                 print it[0]
-                print e
+                print ex
             #G.add_node(node_counter, name=it[0],coordi=[float(it[1]),float(it[2])])
             if(connect_previous == True):
                 #G.add_edge(node_counter-1,node_counter) #connect previous and current way point
@@ -103,24 +120,37 @@ for eachLine in dataArray:
 
 #Improve this code to add exits easily without so many iterations
 #Add exits to the graph
-"""
+
+#"""
 if len(connections) >0:
     for exit in connections:
-        if len(exit)>1:
+        if len(exit.line_txt)>1:
             initial = 0
             final = 0
-            it = exit.split(' ')
+            it = exit.line_txt.split(' ')
             if it[0] == 'exit':
-                for i in range(0,node_counter):
-                    if it[1] == G.node[i]['name']:
-                        initial = i
+                for x in G.nodes():
+                    if it[1] == x.name:
+                        entry = x #entry node
                         break
-                for i in range(0,node_counter):
-                    if it[2] == G.node[i]['name']:
-                        final = i
+                for x in G.nodes():
+                    if it[2] == x.name:
+                        exit = x #exit node
                         break
-                G.add_edge(initial,final)
-"""
+                G.add_edge(entry,exit)
+                entry.parent.add_exit(c_exit(entry,exit,entry.parent))
+
+
+
+for s in rndf.segments:
+    print s.name
+    for l in s.lanes:
+        print l.name
+        for ex in l.exits:
+            print ex.entry.name, ex.exit.name
+
+
+#"""
 
 #print rndf.segments[:].lanes[:].waypoints[:]
 #print rndf.segments[0].lanes[0].waypoints[0].coordi
@@ -130,13 +160,13 @@ if len(connections) >0:
 #print G.number_of_edges()
 #for i in range(0,node_counter):
 #    print i, G.node[i] , G.neighbors(i)
-#"""
+"""
 i =0
 for n in G.nodes():
     i = i+1
     print n.name, n.idn, n.parent.idn, n.parent.parent.idn, i
     for k in  G.neighbors(n):
         print k.name
-#"""
+"""
 #for j in G.neighbors(40):
 #    print G.node[j]['name']
