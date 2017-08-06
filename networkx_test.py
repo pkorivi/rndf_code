@@ -1,5 +1,73 @@
+#!/usr/bin/python2
+
 import networkx as nx
 
+
+class c_waypoint(object):
+    def __init__(self,name,data):
+        self.name = name
+        self.coordi = data
+    def set_parent(self,lane):
+        self.parent = lane
+
+class c_lane(object):
+    def __init__(self,name):
+        self.name = name
+        self.waypoints = []
+    def add_waypoints(self,waypoint):
+        self.waypoints.append(waypoint)
+    def set_parent(self,segment):
+        self.parent = segment
+
+class c_segment(object):
+    def __init__(self,name):
+        self.name = name
+        self.lanes = []
+    def add_lanes(self,lane):
+        self.lanes.append(lane)
+    def set_parent(self,rndf):
+        self.parent = rndf
+
+class c_rndf(object):
+    def __init__(self,name):
+        self.name = name
+        self.segments= []
+    def add_segment(self,segment):
+        self.segments.append(segment)
+
+
+p1 = c_waypoint("adc", [1,2])
+p2 = c_waypoint("p2", [2,4])
+l1 = c_lane("l1")
+s1 = c_segment("s1")
+
+l1.add_waypoints(p1)
+l1.add_waypoints(p2)
+
+s1.add_lanes(l1)
+
+p1.set_parent(l1)
+p2.set_parent(l1)
+
+l1.set_parent(s1)
+
+#print p1.coordi,p2.coordi
+#print l1.waypoints[0].coordi, l1.waypoints[1].coordi
+#print s1.lanes[0].waypoints[0].coordi, s1.lanes[0].waypoints[1].coordi
+#print p1.parent.name
+#print l1.parent.name
+#print (p1.parent).parent.name
+
+
+
+
+
+
+
+
+
+
+"""
 x = 5
 y =10
 G = nx.Graph()
@@ -13,3 +81,4 @@ print G.nodes()
 print G.node[3]
 print G.node[1]['coordi']
 print G.number_of_nodes()
+"""

@@ -35,7 +35,7 @@ for eachLine in dataArray:
                 print it[0]
             #G.add_node(node_counter, name=it[0],coordi=[float(it[1]),float(it[2])])
             if(connect_previous == True):
-                G.add_edge(node_counter,node_counter-1) #connect previous and current way point
+                G.add_edge(node_counter-1,node_counter) #connect previous and current way point
             connect_previous = True # Enable such that the next way point will be connected to previous
             node_counter += 1 #increment node counter
 
@@ -63,7 +63,7 @@ if len(connections) >0:
 #print G.nodes()
 print G.number_of_nodes()
 print G.number_of_edges()
-#for i in range(0,node_counter):
-#    print i, G.node[i] , G.neighbors(i)
+for i in range(0,node_counter):
+    print i, G.node[i] , G.neighbors(i)
 #for j in G.neighbors(40):
 #    print G.node[j]['name']
