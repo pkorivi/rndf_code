@@ -1,3 +1,5 @@
+#!/usr/bin/python2
+
 import networkx as nx
 import matplotlib.pyplot as plt
 ########
@@ -149,8 +151,9 @@ if len(connections) >0:
 
 
 ###Find the shortest path
+# check 1.1.1 does not fetch 1st way point, it depends on direction. check the printed values and rndf files for more info
 s = rndf.segments[0].lanes[0].waypoints[0]
-d = rndf.segments[1].lanes[1].waypoints[2]
+d = rndf.segments[2].lanes[1].waypoints[3]
 path =  nx.shortest_path(G,source=s,target=d)
 print s.name, d.name
 for ob in path:
