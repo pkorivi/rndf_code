@@ -5,6 +5,8 @@ weighted edges.
 
 Currently shortest path between source node and destination node are displayed. Different weights can be added to turns, moving straight etc.
 
+The objects for way points, exits, lanes and segments are bu directional with reference to parents. Thus it will be easy to find the neighboring lanes to current lane, or neighboring points to a way point if needed. 
+
 
 ## Installation
 
