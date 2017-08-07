@@ -1,7 +1,9 @@
 #!/usr/bin/python2
 
 import networkx as nx
+import matplotlib.pyplot as plt
 
+"""
 
 class c_waypoint(object):
     def __init__(self,name,data):
@@ -58,14 +60,7 @@ l1.set_parent(s1)
 #print l1.parent.name
 #print (p1.parent).parent.name
 
-
-
-
-
-
-
-
-
+"""
 
 """
 x = 5
@@ -82,3 +77,15 @@ print G.node[3]
 print G.node[1]['coordi']
 print G.number_of_nodes()
 """
+
+G = nx.DiGraph()
+G.add_node(1)
+G.add_node(2)
+G.add_edge(1,2)
+print G.nodes()
+
+graph_pos = nx.shell_layout(G)
+nx.draw_networkx_nodes(G, graph_pos, node_size=1000, node_color='blue', alpha=0.3)
+nx.draw_networkx_edges(G, graph_pos)
+nx.draw_networkx_labels(G, graph_pos, font_size=12, font_family='sans-serif')
+plt.show()
