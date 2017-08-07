@@ -16,10 +16,10 @@ num_waypoints 21
 lane_width 0.35
 left_boundary broken_white
 right_boundary solid_white
-exit 1.1.13 3.1.1
-exit 1.1.13 3.2.1
-exit 1.1.18 2.1.1
-exit 1.1.18 2.2.1
+exit 1.1.13 3.1.1 l
+exit 1.1.13 3.2.1 l
+exit 1.1.18 2.1.1 l
+exit 1.1.18 2.2.1 l
 1.1.1 0.00 -0.17
 1.1.2 0.50 -0.17
 1.1.3 0.88 -0.17
@@ -48,10 +48,10 @@ num_waypoints 21
 lane_width 0.35
 left_boundary solid_white
 right_boundary broken_white
-exit 1.2.13 3.1.1
-exit 1.2.13 3.2.1
-exit 1.2.18 2.1.1
-exit 1.2.18 2.2.1
+exit 1.2.13 3.1.1 l
+exit 1.2.13 3.2.1 l
+exit 1.2.18 2.1.1 l
+exit 1.2.18 2.2.1 l
 1.2.1 0.00 0.18
 1.2.2 0.47 0.18
 1.2.3 0.88 0.18
@@ -83,10 +83,10 @@ lane 2.1
 num_waypoints 6
 lane_width 0.35
 stop 2.1.3
-exit 2.1.3 3.1.3
-exit 2.1.3 3.2.3
-exit 2.1.6 1.1.9
-exit 2.1.6 1.2.9
+exit 2.1.3 3.1.3 r
+exit 2.1.3 3.2.3 r
+exit 2.1.6 1.1.9 l
+exit 2.1.6 1.2.9 l
 2.1.1 -0.70 1.38
 2.1.2 -0.02 1.38
 2.1.3 0.80 1.38
@@ -96,10 +96,10 @@ exit 2.1.6 1.2.9
 end_lane
 lane 2.2
 num_waypoints 6
-exit 2.2.3 3.1.3
-exit 2.2.3 3.2.3
-exit 2.2.6 1.1.9
-exit 2.2.6 1.2.9
+exit 2.2.3 3.1.3 r
+exit 2.2.3 3.2.3 r
+exit 2.2.6 1.1.9 l
+exit 2.2.6 1.2.9 l
 2.2.1 -0.70 1.72
 2.2.2 0.01 1.72
 2.2.3 0.80 1.72
@@ -114,10 +114,10 @@ segment_name Vertical_Road
 lane 3.1
 num_waypoints 4
 lane_width 0.35
-exit 3.1.2 2.1.4
-exit 3.1.2 2.2.4
-exit 3.1.4 1.1.4
-exit 3.1.4 1.2.4
+exit 3.1.2 2.1.4 l
+exit 3.1.2 2.2.4 l
+exit 3.1.4 1.1.4 l
+exit 3.1.4 1.2.4 l
 3.1.1 1.04 2.38
 3.1.2 1.04 1.95
 3.1.3 1.04 1.18
@@ -126,10 +126,10 @@ end_lane
 lane 3.2
 num_waypoints 4
 lane_width 0.35
-exit 3.2.2 2.1.4
-exit 3.2.2 2.2.4
-exit 3.2.4 1.1.4
-exit 3.2.4 1.2.4
+exit 3.2.2 2.1.4 l
+exit 3.2.2 2.2.4 l
+exit 3.2.4 1.1.4 l
+exit 3.2.4 1.2.4 l
 3.2.1 1.40 2.38
 3.2.2 1.38 1.95
 3.2.3 1.39 1.18

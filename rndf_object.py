@@ -2,6 +2,14 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
+
+#Different weights for straight edge and turning edge.
+#This can be modified for path such that to optimize distance or time
+straight_weight = 1
+turn_weight = 1 # This makes the car to choose longer path over turns
+left_turn_weight = 5
+right_turn_weight = 2
+
 ########
 # RNDF Strucurure
 #######
@@ -120,15 +128,15 @@ for eachLine in dataArray:
 
             if(connect_previous == True):
                 #G.add_edge(node_counter-1,node_counter) #connect previous and current way point
-                G.add_edge(p_old,p, weight = '10')
+                G.add_edge(p_old,p, weight = straight_weight)
             connect_previous = True # Enable such that the next way point will be connected to previous
             p_old = p
             node_counter += 1 #increment node counter
 
 
 #Improve this code to add exits easily without so many iterations
-#Add exits to the graph
 
+#Add exits to the graph
 #"""
 if len(connections) >0:
     for txt in connections:
@@ -144,20 +152,21 @@ if len(connections) >0:
                         final = x #exit node
                         break
                 #add edge in graph
-                G.add_edge(initial,final, weight = '10')
+                G.add_edge(initial,final, weight = turn_weight)
+                #weight = left_turn_weight if it[3]=='l' else right_turn_weight (#TODO use this weight to differentiate between left and right turns)
                 # add the exit to the lane of the entry point with the lane as parent to exit
                 initial.parent.add_exit(c_exit(entry = initial,exit = final, parent = initial.parent))
 
 
 
 ###Find the shortest path
-# check 1.1.1 does not fetch 1st way point, it depends on direction. check the printed values and rndf files for more info
+# The indexes start from 0 and the names start from 1, check indexes and refer to map for points
 s = rndf.segments[0].lanes[0].waypoints[0]
-d = rndf.segments[2].lanes[1].waypoints[3]
-path =  nx.shortest_path(G,source=s,target=d)
+d = rndf.segments[1].lanes[1].waypoints[4]
+path =  nx.shortest_path(G,source=s,target=d, weight= 'weight')
 print s.name, d.name
 for ob in path:
-    print ob.name
+    print ob.name,ob.coordi
 
 
 
