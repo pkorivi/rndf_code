@@ -3,6 +3,10 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 
+#TODO path to the nearest node, find the nearest neighbors,
+#TODO check if you on move on left or right lane- this will help in building the graph for motion planner to switch lanes etc
+#TODO Many more to come 
+
 #Different weights for straight edge and turning edge.
 #This can be modified for path such that to optimize distance or time
 straight_weight = 1
@@ -156,8 +160,6 @@ if len(connections) >0:
                 #weight = left_turn_weight if it[3]=='l' else right_turn_weight (#TODO use this weight to differentiate between left and right turns)
                 # add the exit to the lane of the entry point with the lane as parent to exit
                 initial.parent.add_exit(c_exit(entry = initial,exit = final, parent = initial.parent))
-
-
 
 ###Find the shortest path
 # The indexes start from 0 and the names start from 1, check indexes and refer to map for points
