@@ -2,10 +2,11 @@
 
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
 
 #TODO path to the nearest node, find the nearest neighbors,
 #TODO check if you on move on left or right lane- this will help in building the graph for motion planner to switch lanes etc
-#TODO Many more to come 
+#TODO Many more to come
 
 #Different weights for straight edge and turning edge.
 #This can be modified for path such that to optimize distance or time
@@ -79,7 +80,8 @@ connections = []
 stops = [] # later remove from list and update here again
 connect_previous = False #make it true when a waypoint is encountered
 #pullData = open('rndf_1_way_loop.txt',"r").read()
-pullData = open('rndf_2_way_road.txt',"r").read()
+#pullData = open('rndf_2_way_road.txt',"r").read()
+pullData = open('rndf_simulator_map_2way.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -132,7 +134,8 @@ for eachLine in dataArray:
 
             if(connect_previous == True):
                 #G.add_edge(node_counter-1,node_counter) #connect previous and current way point
-                G.add_edge(p_old,p, weight = straight_weight)
+                wt = np.linalg.norm(np.array(p_old.coordi)-np.array(p.coordi), 2, 0)
+                G.add_edge(p_old,p, weight = wt)
             connect_previous = True # Enable such that the next way point will be connected to previous
             p_old = p
             node_counter += 1 #increment node counter
@@ -164,11 +167,16 @@ if len(connections) >0:
 ###Find the shortest path
 # The indexes start from 0 and the names start from 1, check indexes and refer to map for points
 s = rndf.segments[0].lanes[0].waypoints[0]
-d = rndf.segments[1].lanes[1].waypoints[4]
+d = rndf.segments[0].lanes[0].waypoints[5]
 path =  nx.shortest_path(G,source=s,target=d, weight= 'weight')
 print s.name, d.name
+prev = None
 for ob in path:
     print ob.name,ob.coordi
+    if prev == None:
+        prev = ob
+    print G.get_edge_data(prev,ob,default=0)
+    prev = ob
 
 
 
