@@ -1,12 +1,26 @@
-## RNDF Parser 
+## WAY Point Extraction
+### Lab Map
+1- Download the Lab_map_600x400.png
+2- Write a .yaml file to describe the map (http://wiki.ros.org/map_server)
+3- Run the map_server (http://wiki.ros.org/map_server)
+5- open the map in Rviz and show the map
+4- Write a node to subscribe to clicked_points
+5- click on the center of street (map) continuously and save the list of
+the points.
+6-  Save these points in the RNDF file format.
+7- save them in a file.
 
-Code to parse RNDF files and extract information to an rndf object then build a graph connecting all the way points with
-weighted edges. 
+For a 2 way map, parallel points to the center line on the lane can be extracted using "parallel_lines.py", 
+edit : get_parallel_pts(xar, yar, -0.175) # use +0.175 for parallel points on other side.
+       pts = #for number of points in the file. 
 
-Currently shortest path between source node and destination node are displayed. Different weights can be added to turns, moving straight etc.
+"plot.py" can be used to plot the values and check on map
 
-The objects for way points, exits, lanes and segments are bu directional with reference to parents. Thus it will be easy to find the neighboring lanes to current lane, or neighboring points to a way point if needed. 
+## RNDF Graph Creation 
 
+"rndf_graph.py" is the file for parsing the data from the the rndf_file.txt and converting it to a graph. The edges are weighted with distance between the points. 
+  
+nx.shortest_path() can be used for finding the shortest path between nodes.
 
 ## Installation
 

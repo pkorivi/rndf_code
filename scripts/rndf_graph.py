@@ -81,7 +81,8 @@ stops = [] # later remove from list and update here again
 connect_previous = False #make it true when a waypoint is encountered
 #pullData = open('rndf_1_way_loop.txt',"r").read()
 #pullData = open('rndf_2_way_road.txt',"r").read()
-pullData = open('rndf_simulator_map_2way.txt',"r").read()
+#pullData = open('rndf_simulator_map_2way.txt',"r").read()
+pullData = open('/home/korivi/Desktop/frei_traj/code/RNDF_Creation/simulator_map/oneway_map/rndf_1_way_simulator.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -166,8 +167,8 @@ if len(connections) >0:
 
 ###Find the shortest path
 # The indexes start from 0 and the names start from 1, check indexes and refer to map for points
-s = rndf.segments[0].lanes[0].waypoints[0]
-d = rndf.segments[0].lanes[0].waypoints[5]
+s = rndf.segments[0].lanes[0].waypoints[1]
+d = rndf.segments[0].lanes[0].waypoints[0]
 path =  nx.shortest_path(G,source=s,target=d, weight= 'weight')
 print s.name, d.name
 prev = None
