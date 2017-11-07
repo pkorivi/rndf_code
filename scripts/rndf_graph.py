@@ -82,7 +82,7 @@ connect_previous = False #make it true when a waypoint is encountered
 #pullData = open('rndf_1_way_loop.txt',"r").read()
 #pullData = open('rndf_2_way_road.txt',"r").read()
 #pullData = open('rndf_simulator_map_2way.txt',"r").read()
-pullData = open('/home/korivi/Desktop/frei_traj/code/RNDF_Creation/simulator_map/oneway_map/rndf_1_way_simulator.txt',"r").read()
+pullData = open('/home/korivi/Desktop/frei_traj/code/RNDF_Creation/rndf_files/rndf_1_way_simulator.txt',"r").read()
 dataArray = pullData.split('\n')
 node_counter = 0
 index = 0
@@ -165,20 +165,35 @@ if len(connections) >0:
                 # add the exit to the lane of the entry point with the lane as parent to exit
                 initial.parent.add_exit(c_exit(entry = initial,exit = final, parent = initial.parent))
 
-###Find the shortest path
-# The indexes start from 0 and the names start from 1, check indexes and refer to map for points
-s = rndf.segments[0].lanes[0].waypoints[1]
-d = rndf.segments[0].lanes[0].waypoints[0]
-path =  nx.shortest_path(G,source=s,target=d, weight= 'weight')
-print s.name, d.name
-prev = None
-for ob in path:
-    print ob.name,ob.coordi
-    if prev == None:
-        prev = ob
-    print G.get_edge_data(prev,ob,default=0)
-    prev = ob
+#### Find the nearest point
+def closest_node(pt):
+    closest_dist =100000.0
+    closest_node = None
+    for x in G.nodes():
+        dist = (x.coordi[0]-pt[0])**2 + (x.coordi[1]-pt[1])**2
+        if(dist<closest_dist):
+            closest_dist = dist
+            closest_node = x
+    return closest_node
 
+
+###Find the shortest path from source to Destination
+src_coordi = [-5,-4]
+dst_coordi = [1,0]
+closest_way_pt_src  = closest_node(src_coordi)
+closest_way_pt_dst = closest_node(dst_coordi)
+#print cs.name, cs.coordi
+# The indexes start from 0 and the names start from 1, check indexes and refer to map for points
+#s = rndf.segments[0].lanes[0].waypoints[1] #If to provide the src and destination from way points directly
+path =  nx.shortest_path(G,source=closest_way_pt_src,target=closest_way_pt_dst, weight= 'weight')
+print closest_way_pt_src.name, closest_way_pt_dst.name
+prev = None
+for node in path:
+    print node.name,node.coordi
+    if prev == None:
+        prev = node
+    print G.get_edge_data(prev,node,default=0)
+    prev = node
 
 
 ## Visulization
